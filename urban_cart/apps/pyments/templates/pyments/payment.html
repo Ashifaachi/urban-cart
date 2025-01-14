@@ -1,0 +1,88 @@
+{% extends 'pyments/base.html' %}
+{% block title %}
+URBAN CART
+{% endblock %}
+{% block content %}
+
+<section id="do_action">
+    <div class="container">
+        <div class="heading">
+            <h3>What would you like to do next?</h3>
+            <p>Choose if you have a discount code or reward points you want to use or would like to estimate your delivery cost.</p>
+        </div>
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="chose_area">
+                   <h4 style="text-align: center; padding-bottom: 5px;">Card Payment </h4>
+                   <hr>
+                    <ul class="user_info">
+                        <li class="single_field">
+                            <label>Card Type</label>
+                            <select>
+                                <option>Credit Card</option>
+                                <option>Debit Card</option>
+                                <!-- <option>UK</option>
+                                <option>India</option>
+                                <option>Pakistan</option>
+                                <option>Ucrane</option>
+                                <option>Canada</option>
+                                <option>Dubai</option> -->
+                            </select>
+                            
+                        </li>
+                        <!-- <li class="single_field">
+                            <label>Region / State:</label>
+                            <select>
+                                <option>Select</option>
+                                <option>Dhaka</option>
+                                <option>London</option>
+                                <option>Dillih</option>
+                                <option>Lahore</option>
+                                <option>Alaska</option>
+                                <option>Canada</option>
+                                <option>Dubai</option>
+                            </select>
+                        
+                        </li> -->
+                        <li class="single_field zip-field">
+                            <label>Card Number</label>
+                            <input type="number">
+                        </li>
+                        <li class="single_field zip-field">
+                            <label>Exp Date</label>
+                            <input type="text">
+                        </li><br>
+                        <li class="single_field zip-field">
+                            <label>CVV</label>
+                            <input type="number">
+                        </li>
+                    </ul>
+                    
+                    <a class="btn btn-default check_out" href="">Continue Payment</a>
+                </div>
+            </div>
+            <div class="col-sm-6">
+              
+                <div class="total_area">
+                    <h4 style="text-align: center; padding-bottom: 5px;">UPI Payment </h4>
+                    <hr>
+                    <ul>
+                        <li>Total <span>Rs 61</span></li>
+                        <li><label>Enter UPI ID:</label>
+                            <input style="border: none;" type="text"></li>
+                        <!-- <li>Eco Tax <span>$2</span></li>
+                        <li>Shipping Cost <span>Free</span></li>
+                        <li>Total <span>$61</span></li> -->
+                    </ul>
+                        <!-- <a class="btn btn-default update" href="">Update</a> -->
+                        <a class="btn btn-default check_out" href="{% url 'payment' %}">Verify and Pay</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section><!--/#do_action-->
+	
+
+{% endblock %}
+	
+	
