@@ -11,15 +11,18 @@ def add_item(request):
         product_name = request.POST.get('product_name')
         product_category = request.POST.get('product_category')
         product_description = request.POST.get('product_description')
-        product_stock = int(request.POST.get('product_stock', 0))  # Convert to int for calculations
-        product_price = float(request.POST.get('product_price', 0))  # Convert to float if needed
+        product_price = float(request.POST.get('product_price', '0') or 0.0)
+        product_stock = int(request.POST.get('product_stock', '0') or 0)
+        # product_stock = request.POST.get('product_stock')  # Convert to int for calculations
+        # product_price = request.POST.get('product_price')  # Convert to float if needed
         product_image1 = request.FILES.get('product_image1')  # Handling file upload correctly
         product_image2 = request.FILES.get('product_image2')  # Handling file upload correctly
         product_image3 = request.FILES.get('product_image3')  # Handling file upload correctly
-
-        # Check if the book already exists
+        # product_stock= int(product_stock)
+        # product_price= float(product_price)
+        # Check if the product already exists
         product, created = Product.objects.get_or_create(
-            product_nameme=product_name,
+            product_name=product_name,
             defaults={
                 'product_image1': product_image1,
                 'product_image2': product_image2,
@@ -112,10 +115,10 @@ def update_item(request):
             product.product_description = request.POST['product_description']
             changes_made = True
         if 'product_stock' in request.POST:
-            product.product_stock = int(request.POST['product_stock'])
+            product.product_stock = int(request.POST.get('product_stock', '0') or 0)
             changes_made = True
         if 'product_price' in request.POST:
-            product.product_price = float(request.POST['product_price'])
+            product.product_price = float(request.POST.get('product_price', '0') or 0.0)
             changes_made = True
         if 'product_image1' in request.FILES:
             product.product_image1 = request.FILES['product_image1']

@@ -131,27 +131,32 @@
 
 	
 		<!--list-topics end-->
-
+		
         <main style="padding: 2%;">
             <div class="album py-5 bg-body-tertiary">
                 <div class="container">
                     <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
-                        <div class="col">
+                        {% for product in page_obj %}
+						<div class="col">
+							
                             <div class="card shadow-sm">
-                              <img class="bd-placeholder-img card-img-top" width="100%" height="225" src="{% static 'admin/assets/images/explore/e1.jpg' %}" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false">
+                              <img style="height: 300px;" class="bd-placeholder-img card-img-top" width="100%" height="225" src="{{ product.product_image1.url }}" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false">
                               <div class="card-body">
-                                <h5>Product Name</h5>
-                                <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+								<p hidden>{{ product.id }}</p>
+                                <h5>{{ product.product_name }}</h5>
+                                <p class="card-text">{{ product.product_description }}</p>
                                 <div class="d-flex justify-content-between align-items-center">
                                   <div class="btn-group">
-                                    <button type="button" class="btn btn-sm btn-outline-secondary">Rate</button>
-                                    <button type="button" class="btn btn-sm btn-outline-secondary">Stock</button>
+                                    <button type="button" class="btn btn-sm btn-outline-secondary">{{ product.product_price }}</button>
+                                    <button type="button" class="btn btn-sm btn-outline-secondary">Stock {{ product.product_stock }}</button>
                                   </div>
-                                  <small class="text-body-secondary">Category</small>
+                                  <small class="text-body-secondary">{{ product.product_category }}</small>
                                 </div>
                               </div>
                             </div>
+							
                           </div>
+						  {% endfor %}
                           
 
 
@@ -161,9 +166,56 @@
 
             </div>
 
+			        <!-- Pagination Controls
+					<ul class="pagination">
+						{% if page_obj.has_previous %}
+							<li><a href="?page=1">First</a></li>
+							<li><a href="?page={{ page_obj.previous_page_number }}">Previous</a></li>
+						{% else %}
+							<li><span>First</span></li>
+							<li><span>Previous</span></li>
+						{% endif %}
+			
+						{% for page_num in page_obj.paginator.page_range %}
+							{% if page_num == page_obj.number %}
+								<li><span class="current-page">{{ page_num }}</span></li>
+							{% else %}
+								<li><a href="?page={{ page_num }}">{{ page_num }}</a></li>
+							{% endif %}
+						{% endfor %}
+			
+						{% if page_obj.has_next %}
+							<li><a href="?page={{ page_obj.next_page_number }}">Next</a></li>
+							<li><a href="?page={{ page_obj.paginator.num_pages }}">Last</a></li>
+						{% else %}
+							<li><span>Next</span></li>
+							<li><span>Last</span></li>
+						{% endif %}
+					</ul> -->
+					<nav aria-label="Page navigation example">
+						<ul class="pagination justify-content-center">
+							{% if page_obj.has_previous %}
+						  <li class="page-item">
+							<a class="page-link" href="?page={{ page_obj.previous_page_number }}">Previous</a>
+						  </li>{% endif %}
+						  {% for page_num in page_obj.paginator.page_range %}
+						  <li class="page-item"><a class="page-link" href="?page={{ page_num }}">{{ page_num }}</a></li>
+						  {% endfor %}
+						  <!-- <li class="page-item"><a class="page-link" href="#">2</a></li>
+						  <li class="page-item"><a class="page-link" href="#">3</a></li> -->
+						  {% if page_obj.has_next %}
+						  <li class="page-item">
+							<a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a>
+						  </li>
+						  {% endif %}
+						</ul>
+					  </nav>
+				
+
 
 
         </main>
+		
 		<!--footer start-->
 		<footer id="footer"  class="footer">
 			<div class="container">

@@ -20,8 +20,19 @@ URBAN CART
      
         <form action="" method="POST">
             {% csrf_token %}
+            <div class="mb-3 row" style="margin-bottom: 1%;">
+              <label for="inputPassword" class="col-sm-2 col-form-label">Search Name</label>
+              <p hidden>{{ product_id }}</p>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" id="text" name="search_name">
+              </div>
+            </div>
+            <div class="d-grid gap-2 col-6 mx-auto" style="margin-bottom: 1%;">
+              <button class="btn btn-primary" type="submit">Search Item</button>
+            </div>
           <div class="mb-3 row" style="margin-bottom: 1%;">
             <label for="inputPassword" class="col-sm-2 col-form-label">Product Name</label>
+            <p hidden>{{ product_id }}</p>
             <div class="col-sm-10">
               <input type="text" class="form-control" id="text" name="product_name">
             </div>
