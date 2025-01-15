@@ -1,6 +1,7 @@
 from django.shortcuts import render,redirect,get_object_or_404
 from django.urls import reverse
 from .models import Product,Slider
+from django.core.paginator import Paginator
 
 # Create your views here.
 def index(request):
@@ -138,9 +139,15 @@ def update_item(request):
       
 
    
+# def list_item(request):
+#     product = Product.objects.all()
+#     return render(request,'admin1/list_item.html',{'product':product})
 def list_item(request):
-    product = Product.objects.all()
-    return render(request,'admin1/list_item.html',{'product':product})
+    product_list = Product.objects.all()
+    paginator = Paginator(product_list, 9)  # Show 10 products per page
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    return render(request, 'admin1/list_item.html', {'page_obj': page_obj})
 
     #return render(request, 'admin1/list_item.html')
 # def slide(request):
