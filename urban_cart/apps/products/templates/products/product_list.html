@@ -85,50 +85,28 @@ URBAN CART
                                 <h4 class="panel-title"><a href="#">Kids</a></h4>
                             </div>
                         </div>
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <h4 class="panel-title"><a href="#">Fashion</a></h4>
-                            </div>
-                        </div>
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <h4 class="panel-title"><a href="#">Households</a></h4>
-                            </div>
-                        </div>
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <h4 class="panel-title"><a href="#">Interiors</a></h4>
-                            </div>
-                        </div>
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <h4 class="panel-title"><a href="#">Clothing</a></h4>
-                            </div>
-                        </div>
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <h4 class="panel-title"><a href="#">Bags</a></h4>
-                            </div>
-                        </div>
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <h4 class="panel-title"><a href="#">Shoes</a></h4>
-                            </div>
-                        </div>
+                        
+                        
+                       
+                       
+                     
                     </div><!--/category-products-->
                 
                     <div class="brands_products"><!--brands_products-->
                         <h2>Brands</h2>
                         <div class="brands-name">
+                            {% for item, count in data %}
+                           
                             <ul class="nav nav-pills nav-stacked">
-                                <li><a href="#"> <span class="pull-right">(50)</span>Acne</a></li>
-                                <li><a href="#"> <span class="pull-right">(56)</span>Grüne Erde</a></li>
+                                <li><a href="#"> <span class="pull-right">({{ count }})</span>{{ item }} </a></li>
+                                <!-- <li><a href="#"> <span class="pull-right">(56)</span>Grüne Erde</a></li>
                                 <li><a href="#"> <span class="pull-right">(27)</span>Albiro</a></li>
                                 <li><a href="#"> <span class="pull-right">(32)</span>Ronhill</a></li>
                                 <li><a href="#"> <span class="pull-right">(5)</span>Oddmolly</a></li>
                                 <li><a href="#"> <span class="pull-right">(9)</span>Boudestijn</a></li>
-                                <li><a href="#"> <span class="pull-right">(4)</span>Rösch creative culture</a></li>
+                                <li><a href="#"> <span class="pull-right">(4)</span>Rösch creative culture</a></li> -->
                             </ul>
+                            {% endfor %}
                         </div>
                     </div><!--/brands_products-->
                     <!--price-range-->
@@ -164,12 +142,14 @@ URBAN CART
                                 
                                 
 
-                                    <div class="productinfo text-center">
+                                    <div class="productinfo text-center" style="max-height: 400px; min-height: 400px;">
+                                        <a href="">
                                         
-                                        <img style="height: 200px;" src="{{ product.product_image1.url }}" alt="" />
+                                        <img style="max-height: 200px; min-height: 200px;" src="{{ product.product_image1.url }}" alt="" />
                                         <h2> RS {{ product.product_price }}</h2>
-                                        <p>{{ product.product_name }}</p>
-                                        <a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+                                        <p>{{ product.product_name }}</p></a>
+                                        <a href="{% url 'cart' %}" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+                                    
                                        
                                     </div>
                                     
@@ -192,34 +172,36 @@ URBAN CART
                 
                  
                 </div>
-                <nav aria-label="Page navigation example" style="text-align: center;">
-                    <ul class="pagination justify-content-center">
-                        {% if products.has_previous %}
-                      <li class="page-item">
-                        <a class="page-link" href="?page={{ products.previous_page_number }}">Previous</a>
-                      </li>
-                      {% endif %}
-                      {% for page_num in products.paginator.page_range %}
-                      <li class="page-item"><a class="page-link" href="?page={{ page_num }}">{{ page_num }}</a></li>
-                      {% endfor %}
-                      <!-- <li class="page-item"><a class="page-link" href="#">2</a></li>
-                      <li class="page-item"><a class="page-link" href="#">3</a></li> -->
-                      {% if products.has_next %}
-                      <li class="page-item">
-                        <a class="page-link" href="?page={{ products.next_page_number }}">Next</a>
-                      </li>
-                      {% endif %}
-                    </ul>
-                  </nav><!--features_items-->
                 
+            </div>
+        </div>
+        <nav aria-label="Page navigation example" style="text-align: center;">
+            <ul class="pagination justify-content-center">
+                {% if products.has_previous %}
+              <li class="page-item">
+                <a class="page-link" href="?page={{ products.previous_page_number }}">Previous</a>
+              </li>
+              {% endif %}
+              {% for page_num in products.paginator.page_range %}
+              <li class="page-item"><a class="page-link" href="?page={{ page_num }}">{{ page_num }}</a></li>
+              {% endfor %}
+              <!-- <li class="page-item"><a class="page-link" href="#">2</a></li>
+              <li class="page-item"><a class="page-link" href="#">3</a></li> -->
+              {% if products.has_next %}
+              <li class="page-item">
+                <a class="page-link" href="?page={{ products.next_page_number }}">Next</a>
+              </li>
+              {% endif %}
+            </ul>
+          </nav><!--features_items-->
                 <div class="category-tab"><!--category-tab-->
                     <div class="col-sm-12">
                         <ul class="nav nav-tabs">
-                            <li class="active"><a href="#tshirt" data-toggle="tab">T-Shirt</a></li>
-                            <li><a href="#blazers" data-toggle="tab">Blazers</a></li>
-                            <li><a href="#sunglass" data-toggle="tab">Sunglass</a></li>
-                            <li><a href="#kids" data-toggle="tab">Kids</a></li>
-                            <li><a href="#poloshirt" data-toggle="tab">Polo shirt</a></li>
+                            <li class="active"><a href="{% url 'product_category' 'casual' %}">Casual</a></li>
+                            <li><a href="{% url 'product_category' 'formal' %}" >Formal</a></li>
+                            <li><a href="{% url 'product_category' 'sports' %}" >Sports</a></li>
+                            <li><a href="{% url 'product_category' 'kids' %}" >Kids</a></li>
+                           
                         </ul>
                     </div>
                     <div class="tab-content">

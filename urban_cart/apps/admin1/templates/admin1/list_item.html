@@ -139,7 +139,7 @@
                         {% for product in page_obj %}
 						<div class="col">
 							
-                            <div class="card shadow-sm">
+                            <div class="card shadow-sm" style="max-height: 120vh; min-height: 120vh;">
                               <img style="height: 300px;" class="bd-placeholder-img card-img-top" width="100%" height="225" src="{{ product.product_image1.url }}" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false">
                               <div class="card-body">
 								<p hidden>{{ product.id }}</p>

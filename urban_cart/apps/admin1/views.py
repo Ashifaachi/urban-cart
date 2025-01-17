@@ -49,21 +49,37 @@ def add_item(request):
 
 
     #return render(request, 'admin1/add_item.html')
+# def delete_item(request):
+#      if request.method == 'POST':
+#         product_name = request.POST.get('product_name')
+
+#         # Find the book with the specified name
+#         product = Product.objects.filter(product_name=product_name)
+
+#         if product.exists():
+#             product.delete()  # Deletes the matching product(s)
+#             message = f"product '{product_name}' deleted successfully."
+#         else:
+#             message = f"product '{product_name}' not found."
+
+#         return render(request, 'admin1/delete_item.html', {'message': message})
+#      return render(request, 'admin1/delete_item.html')
 def delete_item(request):
-     if request.method == 'POST':
+    if request.method == 'POST':
         product_name = request.POST.get('product_name')
 
-        # Find the book with the specified name
+        # Find the product with the specified name
         product = Product.objects.filter(product_name=product_name)
 
         if product.exists():
-            product.delete()  # Deletes the matching book(s)
-            message = f"product '{product_name}' deleted successfully."
+            product.delete()  # Deletes the matching product(s)
+            message = f"Product '{product_name}' deleted successfully."
         else:
-            message = f"product '{product_name}' not found."
+            message = f"Product '{product_name}' not found."
 
         return render(request, 'admin1/delete_item.html', {'message': message})
-     return render(request, 'admin1/delete_item.html')
+
+    return render(request, 'admin1/delete_item.html', {'message': ''})  # Default message for GET
      
     
 # def update_item(request):

@@ -2,9 +2,10 @@ from django.shortcuts import render,redirect
 from apps.admin1.models import Product
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.contrib import messages
-
+from django.http import HttpResponse,JsonResponse
 # Create your views here.
 from django.shortcuts import render, get_object_or_404
+from collections import Counter
 
 
 # def product_list(request):
@@ -115,6 +116,16 @@ from django.shortcuts import render, get_object_or_404
 def product_list(request):
     # Fetch all products
     products_list = Product.objects.all()
+    all_products=Product.objects.all()
+    all_brands=[]
+
+    for product in all_products:
+        all_brands.append(product.product_name.split()[0])
+    
+    count_brand = Counter(all_brands)
+
+
+    data = count_brand.items()
 
     # Pagination setup: 10 products per page
     paginator = Paginator(products_list, 9)
@@ -182,7 +193,11 @@ def product_list(request):
                 )
 
     # Render the product list page with paginated products
-    return render(request, 'products/product_list.html', {'products': products})
+    context = {
+        'data': data,
+        'products': products
+        }
+    return render(request, 'products/product_list.html',context)
 
 def product_details(request):
    products = Product.objects.all()
@@ -201,30 +216,50 @@ def product_details(request):
 # def product_category(request,category):
 #    products = Product.objects.filter(category=category)
 #    return render(request, 'products/product_category.html',{'products': products, 'category': category})
-def product_category(request, category):
+
+
+def product_category(request, product_category):
+    
+   
     # Validate the category exists
-    if not Product.objects.filter(category=category).exists():
-        error_message = f"No products found in the '{category}' category."
+    if not Product.objects.filter(product_category=product_category).exists():
+        
+        error_message = f"No products found in the '{product_category}' category."
         return render(request, 'products/product_category.html', {'error_message': error_message})
 
     # Fetch products for the given category
-    products = Product.objects.filter(category=category)
+    products = Product.objects.filter(product_category=product_category)
 
     # Pagination setup
-    paginator = Paginator(products, 10)  # Show 10 products per page
+    paginator = Paginator(products, 9)  # Show 9 products per page
     page = request.GET.get('page')
+
+    
     try:
         products = paginator.page(page)
     except PageNotAnInteger:
         products = paginator.page(1)
     except EmptyPage:
         products = paginator.page(paginator.num_pages)
-
+    
     # Render the template
-    return render(request, 'products/product_category.html', {
+    all_products=Product.objects.all()
+    all_brands=[]
+
+    for product in all_products:
+        all_brands.append(product.product_name.split()[0])
+    
+    count_brand = Counter(all_brands)
+
+
+    data = count_brand.items()
+    context = {
+        'data': data,
         'products': products,
-        'category': category,
-    })
+        'product_category': product_category
+        }
+    return render(request, 'products/product_category.html',context)
+
 def add_to_cart(request, product_id):
     cart = request.session.get('cart', {})
     quantity = int(request.POST.get('quantity', 1))
@@ -241,3 +276,26 @@ def add_to_cart(request, product_id):
 
 
 
+# def category_list(request):
+#     all_products=Product.objects.all()
+#     all_brands=set()
+  
+
+#     for product in all_products:
+#         all_brands.add(product.product_name.split()[0])
+
+#     return render(request,'products/product_list.html',{'all_brands':all_brands})
+
+# def category_list(request):
+#     all_products=Product.objects.all()
+#     all_brands=[]
+
+#     for product in all_products:
+#         all_brands.append(product.product_name.split()[0])
+    
+#     count_brand = Counter(all_brands)
+
+
+#     data = count_brand.items()
+#     context = {'data': data}
+#     return render(request,'products/product_list.html',context)
