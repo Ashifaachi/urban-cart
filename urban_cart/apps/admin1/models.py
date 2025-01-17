@@ -2,25 +2,34 @@ from django.db import models
 
 # Create your models here.
 # Choices for Product Category
-CATEGORY_CHOICES = [
-    ('casual', 'Casual Shoes'),
-    ('formal', 'Formal Shoes'),
-    ('sports', 'Sports Shoes'),
-    ('kids', 'Kids Shoes'),
-]
-
-class Product(models.Model):
-    product_name = models.CharField(max_length=255)
-    product_description = models.TextField()
-    product_price = models.DecimalField(max_digits=10, decimal_places=2)
-    product_stock = models.PositiveIntegerField()
-    product_category = models.CharField(max_length=20, choices=CATEGORY_CHOICES)
-    product_image1 = models.ImageField(upload_to='products/')
-    product_image2 = models.ImageField(upload_to='products/', blank=True, null=True)
-    product_image3 = models.ImageField(upload_to='products/', blank=True, null=True)
+class MainCategory(models.Model):
+    name = models.CharField(max_length=50, unique=True)
 
     def __str__(self):
-        return self.product_name
+        return self.name
+
+
+class SubCategory(models.Model):
+    name = models.CharField(max_length=50, unique=True)
+    main_category = models.ForeignKey(MainCategory, on_delete=models.CASCADE, related_name="subcategories")
+
+    def __str__(self):
+        return f"{self.name} ({self.main_category.name})"
+
+
+class Product(models.Model):
+    name = models.CharField(max_length=255)
+    main_category = models.ForeignKey(MainCategory, on_delete=models.CASCADE)
+    sub_category = models.ForeignKey(SubCategory, on_delete=models.CASCADE)
+    image_url = models.URLField()
+    site_link = models.URLField()
+    ratings = models.FloatField(null=True, blank=True)
+    no_of_ratings = models.PositiveIntegerField(null=True, blank=True)
+    discount_price = models.DecimalField(max_digits=10, decimal_places=2)
+    actual_price = models.DecimalField(max_digits=10, decimal_places=2)
+
+    def __str__(self):
+        return self.name
     
 class Slider(models.Model):
     add_head = models.CharField(max_length=255, verbose_name="Heading")
